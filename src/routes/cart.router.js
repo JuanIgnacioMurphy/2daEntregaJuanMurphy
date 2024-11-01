@@ -54,6 +54,19 @@ router.delete('/', async (req, res) => {
     }
 });
 
+router.delete('/:idCart/product/:idProduct', async (req, res) => {
+    try {
+        const { idProduct, idCart } = req.params;
+        const updatedCart = await cartManager.removeProdFromCart(idCart, idProduct);
+        res.status(200).json({ 
+            message: `Product with ID '${idProduct}' deleted from cart with ID '${idCart}'`,
+            updatedCart 
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 
 
 export default router;

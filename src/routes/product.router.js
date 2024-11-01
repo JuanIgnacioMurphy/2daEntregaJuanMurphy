@@ -40,7 +40,7 @@ router.delete('/:id', async (req, res) => {
     try {
         const {id} = req.params;
         const productToDelete = await productManager.deleteProduct(id);
-        res.status(200).json({message: `Product with ID ${productToDelete.id} deleted successfully`});
+        res.status(200).json({message: `Product with ID '${productToDelete.id}' and name '${productToDelete.title}' deleted successfully`});
 
     } catch (error) {
         res.status(404).json({message: error.message});

@@ -4,7 +4,7 @@ import path from 'path';
 import { productManager } from './product-manager.js'
 
 
-export default class CartManager {
+class CartManager {
     constructor(path) {
         this.path = path;
     }
@@ -93,6 +93,44 @@ export default class CartManager {
             throw new Error(error);
         }
     }
+
+
+    async removeProdFromCart(idCart, idProduct) {
+        try {
+            const currentCarts = await this.getAllCarts();
+            const cartExists = await this.getCartById(idCart);
+            if (!cartExists) {
+                throw new Error('Cart not found');
+            } else {
+                const productIndex = cartExists.products.findIndex((product) => product.id === idProduct);
+                if (productIndex === -1) {
+                    throw new Error('Product not found in cart');
+                } else {
+                    const productInCart = cartExists.products[productIndex];
+        
+                    productInCart.quantity -= 1;
+        
+                    if (productInCart.quantity === 0) {
+                        cartExists.products.splice(productIndex, 1);
+                    }
+                }
+            } 
+            
+            const updatedCarts = currentCarts.map((cart) => {
+                if (cart.id === idCart) {
+                    return cartExists; 
+                }
+                return cart;
+            });
+    
+            await fs.promises.writeFile(this.path, JSON.stringify(updatedCarts));
+            
+            return cartExists; 
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    
     
 
 

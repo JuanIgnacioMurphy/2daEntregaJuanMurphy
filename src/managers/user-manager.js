@@ -1,8 +1,9 @@
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
+import path from 'path';
 
-export default class UserManager {
+class UserManager {
     constructor(path) {
         this.path = path;
     }
@@ -120,3 +121,5 @@ export default class UserManager {
     }
 
 }
+
+export const userManager = new UserManager(path.join(process.cwd(), "src/data/users.json"));
