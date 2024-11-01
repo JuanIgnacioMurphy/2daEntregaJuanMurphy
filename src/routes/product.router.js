@@ -1,8 +1,8 @@
 import { Router } from "express";
-import ProductManager from "../managers/product-manager.js";
+import { productManager } from "../managers/product-manager.js";
 import { productValidator } from "../middlewares/product.validator.js";
 
-const productManager = new ProductManager("./products.json");
+
 
 const router = Router();
 

@@ -1,7 +1,8 @@
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
 
-export default class ProductManager {
+class ProductManager {
     constructor(path) {
         this.path = path;
     }
@@ -45,7 +46,7 @@ export default class ProductManager {
     async getProdById(id) {
         try {
             const products = await this.getProducts();
-            if(products.lenght = 0) {
+            if(products.lenght === 0) {
                 throw new Error('Product list is empty')
             } else {
                 const product = products.find((i) => i.id === id);
@@ -70,7 +71,7 @@ export default class ProductManager {
 
             await fs.promises.writeFile(this.path, JSON.stringify(newProdutcs));
             return product;
-        } catch {
+        } catch (error) {
             throw new Error(error);
         }
     }
@@ -85,7 +86,7 @@ export default class ProductManager {
             await fs.promises.writeFile(this.path, JSON.stringify(newProducts));
             return product;
 
-        } catch {
+        } catch (error) {
             throw new Error(error);
         }
 
@@ -99,9 +100,11 @@ export default class ProductManager {
             } 
             await fs.promises.writeFile(this.path, JSON.stringify([]));
             return 'All products deleted';
-        } catch {
+        } catch (error) {
             throw new Error(error);
         }
     }
 
 }
+
+export const productManager = new ProductManager(path.join(process.cwd(), "src/data/products.json"));
