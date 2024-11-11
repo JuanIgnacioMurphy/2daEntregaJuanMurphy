@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { userManager } from '../managers/user-manager.js';
 import { userValidator } from '../middlewares/user.validator.js';
+import { uploader } from "../middlewares/multer.js";
 
 
 
@@ -63,6 +64,20 @@ router.put('/:id', async (req, res) => {
     } catch (error) {
         res.status(404).json({message: error.message});
     }
+})
+
+router.post('/profile-update', uploader.single('profilepic'), async (req, res) => { 
+    try {console.log(req.file);
+        const user = await userManager.createUser({
+            ...req.body,
+            profilepic: req.file.path
+        });
+        res.status(201).json({name: user.name, id: user.id, email: user.email, profilepic: user.profilepic});
+
+    }   catch(error) {
+        res.status(500).json({message: 'Ups! Something went wrong. Please try again later.'});
+    } 
+
 })
 
 export default router;

@@ -39,7 +39,7 @@ class UserManager {
             const userExist = users.find((i) => i.email === user.email);
             if (userExist) throw new Error('User already exists');
 
-            this.#createHash(user);
+            // this.#createHash(user);
 
 
             users.push(user);
