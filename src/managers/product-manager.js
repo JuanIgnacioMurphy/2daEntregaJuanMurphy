@@ -46,7 +46,7 @@ class ProductManager {
     async getProdById(id) {
         try {
             const products = await this.getProducts();
-            if(products.lenght === 0) {
+            if(products.length === 0) {
                 throw new Error('Product list is empty')
             } else {
                 const product = products.find((i) => i.id === id);
@@ -69,7 +69,7 @@ class ProductManager {
 
             newProducts.push(product);
 
-            await fs.promises.writeFile(this.path, JSON.stringify(newProdutcs));
+            await fs.promises.writeFile(this.path, JSON.stringify(newProducts));
             return product;
         } catch (error) {
             throw new Error(error);
@@ -95,9 +95,9 @@ class ProductManager {
     async deleteAllProducts() {
         try {
             const products = await this.getProducts();
-            if (products.lenght = 0) {
+            if (products.length === 0) {
                 return 'Product list is empty';
-            } 
+            }
             await fs.promises.writeFile(this.path, JSON.stringify([]));
             return 'All products deleted';
         } catch (error) {
